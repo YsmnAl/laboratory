@@ -1,7 +1,7 @@
 #!/bin/bash
 if [ -z "$1" ]
 then
-s=`df -h | sed -n '4p' | awk '{print $1}'`
+s=`df -h | sed -n '$p' | awk '{print $1}'`
 echo "Так как Вы не указали параметры, то будут использованы стандартные значения"
 size=`sudo blockdev —getsize64 $s`
 else
