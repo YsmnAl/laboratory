@@ -1,0 +1,49 @@
+\documentclass[a4paper]{article}
+\usepackage{geometry} %способ ручной установки полей
+\geometry{top=2.7cm} %поле сверху
+\geometry{bottom=2.2cm} %поле снизу
+\geometry{left=3.2cm} %поле справа
+\geometry{right=3.2cm} %поле слева
+\usepackage[utf8]{inputenc} %кодировка
+\usepackage[T2A]{fontenc} %поддержка кириллицы в ЛаТеХ
+\usepackage[russian]{babel} %определение языков в документе
+\usepackage{amssymb,amsmath,amsfonts,latexsym,mathtext} %расширенные наборы математических символов
+\pagestyle{empty}
+
+\begin{document}
+{\fontsize{14}{18} \selectfont
+\noindent бания функции в точке, существует такая окрестность $U(x_0)$ точки $x_0$, что
+\begin{equation*} %перенос на новую строку
+     \omega (f; U(x_0) \cap X) < \omega (f; x_0) + \eta. \eqno(23.46)\
+\end{equation*}
+Точка $x_0$ является точкой прикосновения множества $X_\epsilon$, поэтому существует такая последовательность $x_n \in X_\epsilon, n = 1, 2, ... \,$, что $\lim\limits_{n \to \infty} x_n = x_0$, следовательно, найдется такой номер $n_0$, что $x_{n_0} \in U(x_0) \cap X_\epsilon$. Согласно определению колебания функции в точке, отсюда вытекает, что
+что
+\begin{equation*} %перенос на новую строку
+     \omega (f; U(x_0) \cap X) \geqslant \omega (f; x_{n_0}) \eqno(23.47)\
+\end{equation*}
+(окрестность $U(x_0)$ является и окрестностью точки $x_{n_0}$).
+
+Таким образом,
+\begin{equation*} %перенос на новую строку
+     \omega (f; x_0) \underset{(20.36)}{>} \omega (f; U(x_{n_0}) \cap X) - \eta \underset{(23.47)}{\geqslant} 
+\end{equation*}
+\begin{equation*} %перенос на новую строку
+\underset{(23.47)}{\geqslant} \omega (f; x_{n_0}) - \eta \geqslant \epsilon - \eta , \eqno(23.48)\
+\end{equation*}
+ибо $x_{n_0} \in X_\epsilon$, следовательно, $\omega (f; x_{n_0}) \geqslant \epsilon$.
+
+Так как $\omega (f; x_0) \underset{23.48}{>} \epsilon - \eta$ при любом $\eta > 0$, то $\omega (f; x_0) \geqslant \epsilon$, т. е. $x_0 \in X_\epsilon$. Лемма доказана.$\Box$
+
+Следствие 1 вытекает из того, что всякая точка прикосновения подмножества (в данном случае $X_\epsilon$) является и точкой прикосновения самого множества (в данном случае X), поэтому если $x \in \overline{X_\epsilon}$, то $x \in \overline{X}$. В случае замкнутого множества X имеем $\overline{X} = X$, поэтому $x \in \overline{X_\epsilon} \cap X$, а тогда, согласно лемме 3, $x \in X_\epsilon$, т. е. множество $X_\epsilon$ содержит все свои точки прикосновения, что и означает его замкнутость.
+
+Следствие 2 вытекает из того, что отрезок является ограниченным множеством и, следовательно, любое его подмножество также ограничено. $\Box$
+
+Прежде чем изучать дальнейшие свойства колебаний функций, докажем одну геометрическую лемму. Предварительно введем понятие покрытия.
+
+Система (конечная или бесконечная) интервалов такая, что каждая точка некоторого заданного множества принадлежит по крайней мере одному из интервалов системы, называется \textit{покрытием} этого множества интервалами.
+\begin{center}
+    \line(1, 0){60} \\
+    \textit{559}
+\end{center}
+}
+\end{document}
