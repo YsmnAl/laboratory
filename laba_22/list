@@ -2,8 +2,8 @@
 \usepackage{geometry} %способ ручной установки полей
 \geometry{top=2.7cm} %поле сверху
 \geometry{bottom=2.2cm} %поле снизу
-\geometry{left=3.2cm} %поле справа
-\geometry{right=3.2cm} %поле слева
+\geometry{left=3.55cm} %поле справа
+\geometry{right=3.55cm} %поле слева
 \usepackage[utf8]{inputenc} %кодировка
 \usepackage[T2A]{fontenc} %поддержка кириллицы в ЛаТеХ
 \usepackage[russian]{babel} %определение языков в документе
