@@ -12,6 +12,7 @@
 
 \begin{document}
 {\fontsize{14}{18} \selectfont
+\setlength{\parindent}{20pt}
 \noindent бания функции в точке, существует такая окрестность $U(x_0)$ точки $x_0$, что
 \begin{equation*} %перенос на новую строку
      \omega (f; U(x_0) \cap X) < \omega (f; x_0) + \eta. \eqno(23.46)\
