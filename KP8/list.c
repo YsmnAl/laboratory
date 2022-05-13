@@ -44,7 +44,6 @@ list *listCreate()
     lst->head->next = NULL;
     lst->head->prev = NULL; //
     strcpy(lst->head->data, "BARRIER");
-    // lst->head->data = "BARRIER";
     return lst;
 }
 
@@ -81,11 +80,26 @@ void listInsert(list *lst, char *data) // в конец листа
         list_node *tail = (list_node *)malloc(sizeof(list_node));
         tail->next = NULL;
         strcpy(tail->data, "BARRIER");
-        // tail->data = "BARRIER";
         strcpy(it->node->data, data);
-        // it->node->data = data;
         it->node->next = tail;
         tail->prev = it->node;
+    }
+    else
+        printf("Список не существует\n");
+    free(it);
+}
+
+void listInsertb(list *lst, char *data) // в конец листа
+{
+    listIterator *it = iteratorCreate(lst);
+    if (it->node)
+    {
+        list_node *tail = (list_node *)malloc(sizeof(list_node));
+        tail->next = it->node;
+        tail->prev = NULL;
+        strcpy(tail->data, data);
+        it->node->prev = tail;
+        lst->head = tail;
     }
     else
         printf("Список не существует\n");
