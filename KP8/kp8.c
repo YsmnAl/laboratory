@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "list7.h"
+#include "list.h"
 
 void menu()
 {
     printf("\nМеню:\n");
+    printf("0) Добавить элемент в начало списка\n");
     printf("1) Добавить элемент в конец списка\n");
     printf("2) Удалить элемент из списка\n");
     printf("3) Вывести список\n");
@@ -30,6 +31,12 @@ int main(void)
             continue;
         switch (c)
         {
+        case '0':
+            printf("Для того, чтобы добавить элемент, введите:\n");
+            scanf("%s", data);
+            listInsertb(lst, data);
+            printf("Элемент добавлен\n");
+            break;
         case '1':
             printf("Для того, чтобы добавить элемент, введите:\n");
             scanf("%s", data);
