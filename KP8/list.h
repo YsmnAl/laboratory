@@ -30,5 +30,6 @@ listIterator *iteratorCreate(list *lst);
 void iteratorNext(listIterator *it);
 list_node *iteratorGet(listIterator *it);
 void iteratorSet(list_node *l, listIterator *it);
+void listInsertb(list *lst, char *data);
 
 #endif
