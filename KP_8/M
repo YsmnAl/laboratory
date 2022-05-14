@@ -1,0 +1,6 @@
+laba: list7.o kp8.o
+	gcc list7.o kp8.o
+list7.o : list7.h list7.c
+	gcc -c list7.c
+kp8.o : list7.h kp8.c
+	gcc -c kp8.c
