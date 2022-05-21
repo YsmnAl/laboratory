@@ -1,0 +1,291 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define DEEP 0
+#define max(x, y) ((x) > (y) ? (x) : (y))
+typedef struct _tree *Tree;
+
+struct _tree
+{
+    int value;
+    Tree child;
+    Tree sibling;
+};
+
+Tree tree_create(int value)
+{
+    Tree tree = (Tree)malloc(sizeof(*tree));
+    tree->value = value;
+    tree->child = NULL;
+    tree->sibling = NULL;
+    return tree;
+}
+
+Tree tree_find(Tree tree, int c)
+{
+    if (!tree)
+    {
+        return NULL;
+    }
+    if (tree->value == c)
+    {
+        return tree;
+    }
+    Tree result = NULL;
+    if (tree->child)
+    {
+        result = tree_find(tree->child, c);
+        if (result)
+            return result;
+    }
+    if (tree->sibling)
+    {
+        result = tree_find(tree->sibling, c);
+        if (result)
+            return result;
+    }
+}
+void tree_add_node(Tree tree, int parent, int value)
+{
+    Tree parent_node = tree_find(tree, parent);
+    if (parent_node)
+    {
+        if (!parent_node->child)
+        {
+            parent_node->child = tree_create(value);
+        }
+        else
+        {
+            parent_node = parent_node->child;
+            while (parent_node->sibling)
+            {
+                parent_node = parent_node->sibling;
+            }
+            parent_node->sibling = tree_create(value);
+        }
+    }
+    else
+    {
+        printf("Указанная родительская вершина не найдена.\n");
+    }
+}
+void tree_print_node(Tree tree, int ind)
+{
+    for (int i = 0; i < ind; ++i)
+    {
+        printf("\t");
+    }
+    printf("%d\n", tree->value);
+    if (tree->child)
+    {
+        tree_print_node(tree->child, ind + 1);
+    }
+    if (tree->sibling)
+    {
+        tree_print_node(tree->sibling, ind);
+    }
+}
+
+void tree_print(Tree tree)
+{
+    tree_print_node(tree, 0);
+}
+
+void tree_destroy(Tree tree)
+{
+
+    if (tree->child)
+    {
+        tree_destroy(tree->child);
+    }
+    if (tree->sibling)
+    {
+        tree_destroy(tree->sibling);
+    }
+    free(tree);
+    tree = NULL;
+}
+
+void tree_del_node(Tree tree, int value)
+{
+    if (tree->child)
+    {
+        if (tree->child->value == value)
+        {
+            Tree t = tree->child;
+            tree->child = tree->child->sibling;
+            if (t->child)
+            {
+                tree_destroy(t->child);
+            }
+            free(t);
+            t = NULL;
+            return;
+        }
+        else
+        {
+            tree_del_node(tree->child, value);
+        }
+    }
+    if (tree->sibling)
+    {
+        if (tree->sibling->value == value)
+        {
+            Tree t = tree->sibling;
+            tree->sibling = tree->sibling->sibling;
+            if (t->child)
+            {
+                tree_destroy(t->child);
+            }
+            free(t);
+            t = NULL;
+            return;
+        }
+        else
+        {
+            tree_del_node(tree->sibling, value);
+        }
+    }
+}
+
+int max_level(Tree tree, int deep)
+{
+    if (!tree)
+        return deep - 1;
+    return max(max_level(tree->child, deep + 1), max_level(tree->sibling, deep));
+}
+
+void couting_nodes_on_the_lvls(Tree tree, int level, int *mat)
+{
+    mat[level] += 1;
+    if (tree->child)
+    {
+        couting_nodes_on_the_lvls(tree->child, level + 1, mat);
+    }
+    if (tree->sibling)
+    {
+        couting_nodes_on_the_lvls(tree->sibling, level, mat);
+    }
+}
+
+void check_monotonicity_of_decreaset(Tree tree)
+{
+    bool more_one_lvl = false;
+    bool increasing = false;
+    if (tree->child == NULL)
+    {
+        printf("Дерево содержит только корень, этого недостаточно для определения монотонности.\n");
+    }
+    else
+    {
+        if (tree->child->child)
+        {
+            more_one_lvl = true;
+        }
+        for (Tree t = tree->child; t->sibling; t = t->sibling)
+        {
+            if (t->child != NULL)
+            {
+                more_one_lvl = true;
+                break;
+            }
+        }
+        if (more_one_lvl)
+        {
+            int deep = max_level(tree, DEEP);
+            int level = 0;
+            int mat[deep];
+            for (int i = 0; i <= deep; ++i)
+            {
+                mat[i] = 0;
+            }
+            couting_nodes_on_the_lvls(tree, level, mat);
+            for (int i = 1; i < deep; ++i)
+            {
+                if (mat[i] > mat[i + 1])
+                {
+                    printf("Монотонность ширины дерева не возрастает.\n");
+                    increasing = true;
+                    break;
+                }
+            }
+            if (!increasing)
+                printf("Монотонность ширины дерева возрастает.\n");
+        }
+    }
+}
+
+int main(void)
+{
+    char s[8];
+
+    Tree tree = NULL;
+    int root = 0, ver = 0, parent = 0;
+
+    printf("\n'i', если дерево не создано -- создают дерево, если создано -- добавляют вершины в дерево.\n\n");
+    printf("'d' удаляют вершину и всех ее детей.\n\n");
+    printf("'p' печатают вершины дерева.\n\n");
+    printf("'r' проверяют монотонность убывания ширины уровня дерева.\n\n");
+    printf("'e' заканчивают работу программы.\n\n");
+
+    while (1)
+    {
+        scanf("%7s", s);
+        if (!strcmp(s, "i"))
+        {
+            if (!tree)
+            {
+                printf("Введите значение корня дерева:\n");
+                scanf("%d", &root);
+                tree = tree_create(root);
+            }
+            while (scanf("%d%d", &parent, &ver))
+            {
+                tree_add_node(tree, parent, ver);
+            }
+        }
+        else if (!strcmp(s, "d"))
+        {
+            if (!tree)
+                printf("Дерева не существует.\n");
+            else
+            {
+                scanf("%d", &ver);
+                tree_del_node(tree, ver);
+            }
+        }
+        else if (!strcmp(s, "e"))
+        {
+            if (tree)
+                tree_destroy(tree);
+            break;
+        }
+        else if (!strcmp(s, "r"))
+        {
+            if (!tree)
+                printf("Дерева не существует.\n");
+            else
+            {
+                check_monotonicity_of_decreaset(tree);
+            }
+        }
+        else if (!strcmp(s, "p"))
+        {
+            if (!tree)
+                printf("Дерева не существует.\n");
+            else
+            {
+                printf("\n\n");
+                tree_print(tree);
+                printf("\n\n");
+            }
+        }
+        else
+        {
+            printf("\n\nТакой команды не существует. \n\n");
+        }
+    }
+    return 0;
+}
